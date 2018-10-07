@@ -770,7 +770,8 @@ html {
 .class-category {
   margin-left: 96px;
   padding-top: 11px;
-  box-sizing: border-box
+  box-sizing: border-box;
+  padding-bottom: 51px;
 }
 
 .inner-content {
