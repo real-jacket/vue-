@@ -5,7 +5,8 @@ import Vue from 'vue'
 import axios from 'axios'
 import url from 'js/api.js'
 
-import FootNav from 'components/footnav.vue'
+// import FootNav from 'components/footnav.vue'
+import mixin from 'js/mixin';
 
 new Vue({
     el: '#app',
@@ -41,12 +42,13 @@ new Vue({
             })
         }
     },
-    components: {
-        FootNav
-    },
-    filters: {
-        number(price) {
-            return price + '.00'
-        }
-    }
+    // components: {
+    //     FootNav
+    // },
+    // filters: {
+    //     number(price) {
+    //         return price + '.00'
+    //     }
+    // },
+    mixins:[mixin]
 })
