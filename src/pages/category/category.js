@@ -40,6 +40,9 @@ new Vue({
             axios.post(url.rank).then((response) => {
                 this.rankData = response.data.data
             })
+        },
+        toSearch(list) {
+            location.href = `search.html?keyword=${list.name}&id=${list.id}`
         }
     },
     // components: {
