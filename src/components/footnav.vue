@@ -1,24 +1,10 @@
 <template>
     <div class="bottom-nav">
         <ul>
-            <li class="active">
-                <a href="./index.html"><i class="icon-home"></i>
+            <li :class="{active:index === curIndex}" v-for="(list,index) in navConfig"
+            @click="changeNav(list,index)">
+                <a><i :class="list.icon"></i>
                     <div>有赞</div>
-                </a>
-            </li>
-            <li>
-                <a href="https://maijia.youzan.com/mars/category"><i class="icon-category"></i>
-                    <div>分类</div>
-                </a>
-            </li>
-            <li>
-                <a href="https://h5.youzan.com/v2/trade/cart?f_platform=yzapp&amp;source=yzapp"><i class="icon-cart"></i>
-                    <div>购物车</div>
-                </a>
-            </li>
-            <li>
-                <a href="https://h5.youzan.com/v2/buyer/member"><i class="icon-user"></i>
-                    <div>我</div>
                 </a>
             </li>
         </ul>
@@ -26,7 +12,39 @@
 </template>
 
 <script>
-    
+    let navConfig = [{
+      name:'有赞',
+      href:'index.html',
+      icon:'icon-home'
+    },{
+      name:'分类',
+      href:'category.html',
+      icon:'icon-category'
+    },{
+      name:'购物车',
+      href:'cart.html',
+      icon:'icon-cart'
+    },{
+      name:'我',
+      href:'member.html',
+      icon:'icon-user'
+    }]
+
+    import qs from 'qs'
+
+    export default{
+      data(){
+        return {
+          navConfig,
+          curIndex: parseInt(qs.parse(location.search.substr(1)).index)||0
+        }
+      },
+      methods:{
+        changeNav(list,index){
+          location.href = `${list.href}?index=${index}`
+        }
+      }
+    }
 </script>
 
 <style lang="">
@@ -36,7 +54,7 @@
   height: 50px;
   bottom: 0;
   background-color: #fff;
-  z-index: 8;
+  z-index: 400;
   -o-border-image: url(https://b.yzcdn.cn/v2/image/wap/border-line-2.png) 2 stretch;
   border-image: url(https://b.yzcdn.cn/v2/image/wap/border-line-2.png) 2 stretch;
   border-top: 2px solid #e5e5e5
