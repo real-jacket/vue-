@@ -68,7 +68,6 @@ new Vue({
             this.skuNum += num
         },
         addCart() {
-            debugger
             axios.post(url.cartAdd, { id, number: this.skuNum }).then(res => {
                 if (res.data.status === 200) {
                     this.isAddCart = true
@@ -80,14 +79,6 @@ new Vue({
                     }, 1000)
                 }
             })
-
-            // this.isAddCart = true
-            // this.showSku = false
-            // this.showAddMessage = true
-
-            // setTimeout(() => {
-            //   this.showAddMessage = false
-            // }, 1000)
         }
     },
     components: {
