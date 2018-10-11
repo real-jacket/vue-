@@ -13,31 +13,29 @@
 
 <script>
     import Swiper from 'swiper'
-    import 'swiper/dist/css/swiper.min.css'
+    import 'swiper/dist/css/swiper.css'
 
     export default{
         name:'swiper',
-        components:{
-            Swiper
-        },
         props:{
             lists:{
                 type:Array,
                 require:true
             },
-            name
-        },
-        created() {
-            
         },
         mounted() {
-            new Swiper('.swiper-container', {
-                loop: true,
-                pagination: {
-                    el: '.swiper-pagination',
-                }
-            });
+           this.init() 
         },
+        methods: {
+            init() {
+                new Swiper('.swiper-container', {
+                    loop: true,
+                    pagination: {
+                        el: '.swiper-pagination',
+                    },
+                })
+            }
+        }
     }
 </script>
 

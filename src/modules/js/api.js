@@ -7,7 +7,7 @@ let url = {
     searchList: '/search/list',
     details: '/goods/details',
     deal: '/goods/deal',
-    
+    cartAdd: '/cart/add'
 }
 
 //开发环境和真是环境的切换
