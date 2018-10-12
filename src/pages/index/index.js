@@ -44,7 +44,8 @@ new Vue({
         } else {
           this.lists = curLists
         }
-        this.loading =false
+        this.loading = false
+        this.pageNum++
       })
     },
     getBanner() {
