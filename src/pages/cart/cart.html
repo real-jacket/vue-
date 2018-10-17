@@ -45,7 +45,12 @@
               <!--店铺里的商品-->
               <div>
                 <ul class="js-list block block-list block-list-cart border-0">
-                  <li class="block-item block-item-cart" v-for="(good,goodIndex) in shop.goodsList" :class="{editing:shop.editing}">
+                  <li class="block-item block-item-cart" v-for="(good,goodIndex) in shop.goodsList" 
+                    :class="{editing:shop.editing}"
+                    @touchstart="start($event,good)"
+                    @touchend="end($event,shopIndex,good,goodIndex)"
+                    :ref="'good-'+shopIndex + '-'+goodIndex"
+                  >
                     <div>
                       <div class="check-container" @click="selectGood(shop,good)">
                         <span class="check" :class={checked:editingShop?good.removeChecked:good.checked}></span>
@@ -84,7 +89,7 @@
                         </div>
                         <div class="error-box"></div>
                       </div>
-                      <div class="delete-btn" v-show="shop.editing" @click="remove(shop,shopIndex,good,goodIndex)"><span>删除</span></div>
+                      <div class="delete-btn" @click="remove(shop,shopIndex,good,goodIndex)"><span>删除</span></div>
                     </div>
                   </li>
                 </ul>
@@ -148,6 +153,7 @@
               <button href="javascript:;" class="j-delete-goods btn font-size-14 btn-red" 
                 :disabled="!removeLists.length"
                 v-show="editingShop"
+                @click="removeList"
               >
                 删除
               </button>
@@ -157,7 +163,7 @@
       </div>
     </div>
     <div id="0SuefKPV4p" v-show="removePopup" style="height: 100%; position: fixed; top: 0px; left: 0px; right: 0px; background-color: rgba(0, 0, 0, 0.7); z-index: 1000;  opacity: 1;"></div>
-    <div id="d2tfiX27YS" v-show="removePopup" class="popout-confirm popout-box" style="overflow: hidden; position: absolute; z-index: 1000; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0px); visibility: visible; border-radius: 4px; background: white; width: 270px; padding: 15px; opacity: 1;">
+    <div id="d2tfiX27YS" v-show="removePopup" class="popout-confirm popout-box" style="overflow: hidden; position: fixed; z-index: 1000; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0px); visibility: visible; border-radius: 4px; background: white; width: 270px; padding: 15px; opacity: 1;">
       <div class="confirm-content font-size-14" style="line-height: 20px; padding: 5px 5px 10px;">
         {{removeMsg}}
       </div>

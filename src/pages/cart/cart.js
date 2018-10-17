@@ -6,7 +6,9 @@ import Vue from 'vue'
 import mixin from 'js/mixin.js'
 import axios from 'axios'
 import url from 'js/api.js'
-import qs from 'qs'
+import Volecity from 'velocity-animate'
+import Cart from 'js/cartService.js'
+import fetch from 'js/fetch.js'
 
 new Vue({
     el: '.container',
@@ -86,6 +88,12 @@ new Vue({
             return []
         }
     },
+    watch: {
+      removePopup(val) {
+        document.body.style.overflow = val ? 'hidden' : 'auto'
+        document.querySelector('html').style.overflow = val ? 'hidden' : 'auto'
+      }
+    },
     created() {
         this.getLists()
     },
@@ -139,29 +147,72 @@ new Vue({
         },
         reduce(good) {
             if(good.number===1) return
-            good.number--
+            // axios.post(url.cartReduce, {
+            //   id: good.id,
+            //   number: 1
+            // }).then(res => {
+            //   good.number--
+            // })
+            Cart.reduce(good.id).then(res => {
+              good.number--
+            })
         },
         add(good) {
-            good.number++
+            // axios.post(url.cartAdd, {
+            //   id: good.id,
+            //   number: 1
+            // }).then(res => {
+            //   good.number++
+            // })
+            Cart.add(good.id).then(res => {
+              good.number++
+            })
         },
         remove(shop, shopIndex, good, goodIndex) {
             this.removePopup = true
             this.removeData = { shop, shopIndex, good, goodIndex }
-            this.removeMsg = "确定要删除商品么？"
+            this.removeMsg = "确定要删除该商品么？"
+        },
+        removeList() {
+            this.removePopup = true
+            this.removeMsg = `确定要删除这${this.removeLists.length}个商品么？`
         },
         removeConfirm() {
-            let { shop, shopIndex, good, goodIndex } = this.removeData
-            axios.post(url.cartRemove, {
-              id: good.id
-            }).then(res => {
-                shop.goodsList.splice(goodIndex, 1)
-                if (!shop.goodsList.length) {
-                    this.lists.splice(shopIndex, 1)
-                    this.removeShop()
-                }
-                this.removePopup = false
-            })
-            
+            if (this.removeMsg === "确定要删除该商品么？") {
+                let { shop, shopIndex, good, goodIndex } = this.removeData
+                fetch(url.cartRemove, {
+                    id: good.id
+                }).then(res => {
+                    shop.goodsList.splice(goodIndex, 1)
+                    if (!shop.goodsList.length) {
+                        this.lists.splice(shopIndex, 1)
+                        this.removeShop()
+                    }
+                })
+            } else {
+                let ids = []
+                this.removeLists.forEach(good => {
+                    ids.push(good.id)
+                })
+                axios.post(url.cartRemove, { ids }).then(res => {
+                    let arr = []
+                    this.editingShop.goodsList.forEach(good => {
+                        let index = this.removeLists.findIndex(item => {
+                            return item.id === good.id
+                        })
+                        if (index === -1) {
+                            arr.push(good)
+                        }
+                    })
+                    if (arr.length) {
+                        this.editingShop.goodsList = arr
+                    } else {
+                        this.lists.splice(this.editingShopIndex, 1)
+                        this.removeShop()
+                    }
+                })
+            }
+            this.removePopup = false
         },
         removeShop() {
             this.editingShop = null
@@ -170,6 +221,32 @@ new Vue({
               item.editing = false
               item.editingMsg = '编辑'
             })
+        },
+        start(e, good) {
+            good.startX = e.changedTouches[0].clientX
+        },
+        end(e,shopIndex,good,goodIndex) {
+            let endX = e.changedTouches[0].clientX
+            let left = '0'
+            if (good.startX - endX > 100) {
+                left = '-60px'
+            }
+            if (endX - good.startX > 100) {
+                left = '0px'
+            }
+            for (let ref in this.$refs) {
+                if (ref === `good-${shopIndex}-${goodIndex}`) {
+                    Volecity(this.$refs[ref], {
+                      left
+                    })
+                } else {
+                    Volecity(this.$refs[ref], {
+                      left:'0px'
+                    })
+                }
+            }
+            
+            
         }
     },
     mixins:[mixin]
