@@ -30,7 +30,7 @@
         <div>
           <div class="js-shop-list shop-list">
             <!-- 店铺 -->
-            <div class="block block-order block-cart" v-for="(shop,shopIndex) in lists" ::key="shop.shopId">
+            <div class="block block-order block-cart" v-for="(shop,shopIndex) in lists" :key="shop.shopId">
               <div class="header">
                 <div class="select-group js-select-group" @click="selectShop(shop)">
                   <span class="check" :class="{checked:editingShop?shop.removeChecked:shop.checked}"></span>
@@ -48,8 +48,9 @@
                   <li class="block-item block-item-cart" v-for="(good,goodIndex) in shop.goodsList" 
                     :class="{editing:shop.editing}"
                     @touchstart="start($event,good)"
-                    @touchend="end($event,shopIndex,good,goodIndex)"
+                    @touchend="end($event,shop,shopIndex,good,goodIndex)"
                     :ref="'good-'+shopIndex + '-'+goodIndex"
+                    :key="good.id"
                   >
                     <div>
                       <div class="check-container" @click="selectGood(shop,good)">

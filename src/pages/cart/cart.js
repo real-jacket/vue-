@@ -137,13 +137,21 @@ new Vue({
             shop.editing = !shop.editing
             shop.editingMsg = shop.editing ? "完成" : "编辑"
             this.lists.forEach((item, index) => {
+                item.goodsList.forEach((good, goodIndex) => {
+                    if (index === shopIndex && item.editing === true) {
+                         this.$refs[`good-${shopIndex}-${goodIndex}`][0].style.left = '0px'
+                    }
+                })
                 if (index !== shopIndex) {
                     item.editing = false
                     item.editingMsg = shop.editing ? "" : "编辑"
                 }
             })
+
             this.editingShop = shop.editing ? shop : null
             this.editingShopIndex = shop.editing ? shopIndex : -1
+
+            
         },
         reduce(good) {
             if(good.number===1) return
@@ -225,7 +233,8 @@ new Vue({
         start(e, good) {
             good.startX = e.changedTouches[0].clientX
         },
-        end(e,shopIndex,good,goodIndex) {
+        end(e,shop,shopIndex, good, goodIndex) {
+            if(shop.editing === true){return}
             let endX = e.changedTouches[0].clientX
             let left = '0'
             if (good.startX - endX > 100) {
