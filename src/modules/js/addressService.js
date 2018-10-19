@@ -14,12 +14,12 @@ class Address {
         return fetch(url.addressRemove,id)
     }
 
-    static updated(data) {
+    static update(data) {
         return fetch(url.addressUpdate,data)
     }
 
     static setDefault(id) {
-        return fetch(url.addressSetDefalut,id)
+        return fetch(url.addressSetDefault, id)
     }
 }
 

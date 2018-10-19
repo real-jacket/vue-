@@ -14,15 +14,17 @@
         <div class="block-item">
           <label>选择地区</label>
           <div class="select-group">
-            <select class="js-province-selector">
+            <select class="js-province-selector" v-model="provinceValue">
               <option value="-1">选择省份</option>
-              <option value="110000">北京市</option>
+              <option :value="province.value" v-for="province in addressData.list">{{province.label}}</option>
             </select>
-            <select class="js-city-selector">
+            <select class="js-city-selector" v-model="cityValue">
               <option value="-1">选择城市</option>
+              <option :value="city.value" v-for="city in cityList">{{city.label}}</option>
             </select>
-            <select class="js-county-selector" name="area_code" data-code="">
+            <select class="js-county-selector" name="area_code" data-code="" v-model="districtValue">
               <option value="-1">选择地区</option>
+              <option :value="district.value" v-for="district in districtList">{{district.label}}</option>
             </select>
           </div>
         </div>
@@ -32,16 +34,18 @@
         </div>
       </div>
     </div>
-    <div class="block section js-save block-control-btn">
+    <div class="block section js-save block-control-btn" @click="add">
       <div class="block-item c-blue center">保存</div>
     </div>
     <div class="block section js-delete block-control-btn"
       v-show="type==='edit'"
+      @click="remove"
     >
       <div class="block-item c-red center">删除</div>
     </div>
     <div class="block stick-bottom-row center js-save-default"
       v-show="type==='edit'"
+      @click="setDefault"
     >
       <button class="btn btn-standard js-save-default-btn">设为默认收货地址</button>
     </div>
