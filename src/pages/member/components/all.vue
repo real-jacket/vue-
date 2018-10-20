@@ -26,17 +26,20 @@
   import Address from 'js/addressService.js'
   // import axios from 'axios'
   // import url from 'js/api.js'
-
+  
   export default{
-    data(){
-      return {
-        lists:null
+    computed:{
+      lists(){
+        return this.$store.state.lists
       }
     },
     created() {
-      Address.list().then(res =>{
-        this.lists = res.data.lists
-      })
+      if(!this.lists){
+        this.$store.dispatch('getLists')
+      }
+      // Address.list().then(res =>{
+      //   this.lists = res.data.lists
+      // })
       // axios.post(url.addressLists).then(res =>{
       //   console.log(res)
       // })
