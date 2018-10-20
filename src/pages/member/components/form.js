@@ -11,6 +11,7 @@ export default {
             address: '',
             id: '',
             type: '',
+            isDefault: false,
             instance: '',
             addressData: require('js/address.json'),
             cityList: null,
@@ -34,6 +35,7 @@ export default {
             this.address = address.address
             this.provinceValue = parseInt(address.provinceValue)
             this.id = address.id
+            this.isDefault = address.isDefault
         }
     },
     watch: {
@@ -69,8 +71,8 @@ export default {
     },
     methods: {
         add() {
-            let { name, tel, provinceValue, cityValue, districtValue, address,id} = this
-            let data = { name, tel, provinceValue, cityValue, districtValue, address,id}
+            let { name, tel, provinceValue, cityValue, districtValue, address,id,isDefault} = this
+            let data = { name, tel, provinceValue, cityValue, districtValue, address,id,isDefault}
             if (this.type === 'add') {
                 // Address.add(data).then(res => {
                 //     this.$router.go(-1)
