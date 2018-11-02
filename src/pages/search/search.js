@@ -23,7 +23,7 @@ new Vue({
     },
     methods: {
         getsearchList() {
-            axios.post(url.searchList, {keyword,id}).then((res) => {
+            axios.get(url.searchList, {keyword,id}).then((res) => {
                 this.searchList = res.data.lists
             })
         },

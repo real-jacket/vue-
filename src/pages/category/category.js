@@ -22,7 +22,7 @@ new Vue({
     },
     methods: {
         getTopLists() {
-            axios.post(url.topList).then((response) => {
+            axios.get(url.topList).then((response) => {
                 this.topLists = response.data.lists
             })
         },
@@ -31,13 +31,13 @@ new Vue({
             if (index === 0) {
                 this.getRank()
             } else {
-                axios.post(url.subList, {id}).then((response) => {
+                axios.get(url.subList, {id}).then((response) => {
                   this.subData = response.data.data
                 })
             }
         },
         getRank() {
-            axios.post(url.rank).then((response) => {
+            axios.get(url.rank).then((response) => {
                 this.rankData = response.data.data
             })
         },

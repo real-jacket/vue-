@@ -99,7 +99,7 @@ new Vue({
     },
     methods: {
         getLists() {
-            axios.post(url.cartLists).then(res => {
+            axios.get(url.cartLists).then(res => {
                 let lists = res.data.cartList
                 lists.forEach(shop => {
                     shop.checked = true
@@ -202,7 +202,7 @@ new Vue({
                 this.removeLists.forEach(good => {
                     ids.push(good.id)
                 })
-                axios.post(url.cartRemove, { ids }).then(res => {
+                axios.get(url.cartRemove, { ids }).then(res => {
                     let arr = []
                     this.editingShop.goodsList.forEach(good => {
                         let index = this.removeLists.findIndex(item => {

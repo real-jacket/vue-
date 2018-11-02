@@ -37,7 +37,7 @@ new Vue({
     },
     methods: {
         getDetails() {
-            axios.post(url.details, { id }).then(res => {
+            axios.get(url.details, { id }).then(res => {
                 this.details = res.data.data
                 this.bannerLists = []
                 this.details.imgs.map(item => {
@@ -55,7 +55,7 @@ new Vue({
             }
         },
         getDeal() {
-            axios.post(url.deal, { id }).then(res => {
+            axios.get(url.deal, { id }).then(res => {
                 this.dealLists = res.data.data.lists
             })
         },
@@ -87,9 +87,7 @@ new Vue({
     watch: {
       showSku(val) {
         document.body.style.overflow = val ? 'hidden' : 'auto'
-        document.body.style.height = val ? '100%' : 'auto'
         document.querySelector('html').style.overflow = val ? 'hidden' : 'auto'
-        document.querySelector('html').style.height = val ? '100%' : 'auto'
       }
     },
     mixins:[mixin]
